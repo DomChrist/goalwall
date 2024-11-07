@@ -9,6 +9,13 @@ led4 = LED(24)
 leds = [led,led2,led3,led4]
 
 
+def pressed():
+    for l in leds:
+        l.on()
+    time.sleep(5)
+    for l in leds:
+        l.off()
+
 print("--- hit game ---")
 
 # Wenn der Button gedrückt wird
@@ -28,10 +35,4 @@ except KeyboardInterrupt | InterruptedError:
 
 
 
-def pressed():
-    for l in leds:
-        l.on()
-    time.sleep(5)
-    for l in leds:
-        l.off()
         
