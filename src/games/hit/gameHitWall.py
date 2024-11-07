@@ -8,13 +8,14 @@ led3 = LED(23)
 led4 = LED(24)
 leds = [led,led2,led3,led4]
 
+def blink():
+   for l in leds:
+      l.blink(0.75,0.25,3)
 
 def pressed():
-    for l in leds:
-        l.on()
-    time.sleep(5)
-    for l in leds:
-        l.off()
+    print("---hit---")
+    blink()
+
 
 print("--- hit game ---")
 
@@ -30,7 +31,7 @@ try:
     while True:
         button.wait_for_press()
         button.wait_for_release()
-except KeyboardInterrupt | InterruptedError:
+except KeyboardInterrupt:
     print("finished")
 
 
