@@ -1,0 +1,12 @@
+POST http://pizero2:8080/led/on?port=27
+
+
+
+###
+POST http://piBplus:8080/led/on?port=4
+
+###
+POST http://piBplus:8080/led/off?port=4
+
+###
+POST http://piBplus:8080/led/number/3

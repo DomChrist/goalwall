@@ -4,18 +4,56 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.diozero.devices.LED;
+import de.dom.goalwall.server.adapter.out.device.LedDeviceAdapter;
+import de.dom.goalwall.server.application.game.counter.CountGame;
+import jakarta.ws.rs.*;
 import org.jboss.logging.Logger;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
 
 @Path("led")
 public class LedWebApi {
 
     @Inject
     Logger logger;
+
+    @Inject
+    LedDeviceAdapter ledDeviceAdapter;
+
+    @POST()
+    @Path("on")
+    public String on(@QueryParam("port") @DefaultValue("22") int port ){
+        this.ledDeviceAdapter.allOn();
+        return "OK";
+    }
+
+    @POST()
+    @Path("off")
+    public String off(@QueryParam("port") @DefaultValue("22") int port ){
+        this.ledDeviceAdapter.allOff();
+        return "OK";
+    }
+
+    @POST
+    @Path("number/{nr}")
+    public String number(@PathParam("nr") @DefaultValue("0") int nr){
+        CountGame game = new CountGame(ledDeviceAdapter);
+        game.number( nr );
+        return "ok";
+    }
+
+    @POST
+    @Path("init")
+    public String init(
+            @QueryParam("duration") @DefaultValue("1.5") float duration,
+            @QueryParam("cooldown") @DefaultValue("1.5") float cooldown,
+            @QueryParam("rounds") @DefaultValue("1") int rounds,
+            @QueryParam("async") @DefaultValue("false") boolean async
+    ){
+        ledDeviceAdapter.init( duration , cooldown,async , rounds);
+        return "ok";
+    }
 
     @GET
     public String python(){
@@ -25,6 +63,7 @@ public class LedWebApi {
             // run the Unix "ps -ef" command
                 // using the Runtime exec method:
                 Process p = Runtime.getRuntime().exec("python python/test.py");
+
                 
                 BufferedReader stdInput = new BufferedReader(new 
                      InputStreamReader(p.getInputStream()));

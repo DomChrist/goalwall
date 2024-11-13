@@ -1,11 +1,14 @@
 import sys
 import time
-#import gpiozero
+from gpiozero import LED
 
-pin = int(sys.argv[1])
+len = len( sys.argv)
 
-#led = LED( pin )
+for x in range(1 , len):
+    pin = sys.argv[x]
+    print("LED " + str(pin) + " on" )
+    led = LED( pin )
+    led.on()
 
-time.sleep(5)
+ time.sleep(5)
 
-print("LED " + str(pin) + " on" )
